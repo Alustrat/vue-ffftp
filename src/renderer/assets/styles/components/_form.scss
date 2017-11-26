@@ -1,0 +1,43 @@
+.el-input__inner{
+  @include text-input();
+  height: auto;
+  border: 1px solid $color-grey-medium;
+  border-radius: 4px;
+  padding: 10px 8px;
+  text-align: center;
+  
+  &:focus{
+    border-color: $color-grey-medium;
+  }
+}
+
+.el-form-item{
+  margin-bottom: 0;
+  .el-form-item__error{
+    display: none;
+  }
+}
+
+.row-form-buttons{
+  margin-top: 15px;
+}
+
+.label{
+  @include text-label();
+  text-transform: lowercase;
+  text-align: center;
+  padding-top: 4px;
+
+  &-required:before{
+    content: '*';
+    color: $tonic-color;
+    padding-right: 5px;
+  }
+
+  &-click{
+    cursor: pointer;
+    &:hover{
+      text-decoration: underline;
+    }
+  }
+}

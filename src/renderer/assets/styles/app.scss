@@ -1,0 +1,32 @@
+/////////////////////////////////////////////////////////////////////////////////////
+//                                     IMPORTS                                     //
+/////////////////////////////////////////////////////////////////////////////////////
+
+// Normalize
+@import "../../node_modules/node-normalize-scss/normalize";
+
+// Bourbon
+@import "../../node_modules/bourbon/app/assets/stylesheets/bourbon";
+
+// Vendors
+
+
+//Base
+@import "/base/fonts";
+@import "/base/variables";
+@import "/base/texts";
+@import "/base/base";
+@import "/base/mixins";
+
+// Components
+@import "/components/form";
+@import "/components/grid";
+@import "/components/favorites";
+@import "/components/popup";
+@import "/components/list";
+
+// Partials
+@import "/partials/header";
+
+// Pages
+@import "/pages/dashboard";

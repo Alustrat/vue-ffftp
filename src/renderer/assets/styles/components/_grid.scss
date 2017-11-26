@@ -1,0 +1,23 @@
+.container {
+  width: 100%;
+  padding: 0 50px;
+
+  &-page{ max-width: 1400px; }
+  &-form{ max-width: 880px; }
+  &-full{ max-width: 100%; }
+
+  &-pop-up{
+    position: absolute;
+    max-width: 380px;
+    top: 50%; left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+  }
+
+  &-center { margin: 0 auto; }
+}
+
+.col {
+  &-left{ text-align: left };
+  &-center{ text-align: center };
+  &-right{ text-align: right };
+}

@@ -1,0 +1,51 @@
+html{
+  font-size: 83.35%;
+  box-sizing: border-box;
+
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+}
+
+html,body{
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+  #app {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+
+    &.active #dragContainer{
+      display: block;
+    }
+  }
+	&.no-scroll{
+		overflow: hidden;
+	}
+  .close{
+    cursor: pointer;
+  }
+
+  #dragContainer{
+    display: none;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    z-index: 20;
+    background-color: #FFF;
+
+    .content{
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate3d(-50%, -50%, 0);
+    }
+  }
+
+  .v-modal{
+    display: none;
+  }
+}
+
+body {
+  @include text-basic();
+}

@@ -1,0 +1,17 @@
+.favorites{
+  margin-top: 40px;
+
+  .favorites-header{
+    @include title-favorites();
+    margin-bottom: 15px;
+  }
+
+  .list-favorites {
+    .el-col{
+      margin-bottom: 20px;
+      button{
+        width: 100%;
+      }
+    }
+  }
+}

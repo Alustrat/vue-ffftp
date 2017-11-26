@@ -1,0 +1,63 @@
+#header-logo{
+  margin: 50px 0;
+  width: 50px;
+  height: auto;
+}
+
+#list-header{
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  text-align: center;
+  background-color: rgba(255,255,255,0.8);
+  padding: 25px 0;
+  z-index: 10;
+  
+  .dir{
+    @include text-path();
+    margin-bottom: 15px;
+
+    a {
+      cursor: pointer;
+      &:hover { text-decoration: underline; }
+    };
+
+    span:last-child{
+      color: $main-color;
+      a {
+        cursor: initial;
+        &:hover { text-decoration: none; }
+      }
+    }
+
+    i{
+      @include text-path-separator();
+      padding: 0 12px;
+    }
+  }
+
+  .workspace-buttons button{
+    @include text-action-buttons();
+    margin: 0 6px;
+    cursor: pointer;
+    padding: 1px 6px;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    transition: .2;
+    &:hover{
+      color: $tonic-color;
+      transition: .2;
+    }
+
+    &:disabled{
+      color: $color-grey-light;
+    }
+    
+    i { padding-right: 5px; }
+  }
+
+  .workspace-buttons input{
+    display: none;
+  }
+}

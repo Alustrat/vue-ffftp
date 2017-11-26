@@ -1,0 +1,58 @@
+@mixin text($family, $weight, $size, $line-height) {
+  font: {
+    family: $family;
+    weight: $weight;
+    size: $size;
+  };
+  line-height: $line-height;
+}
+
+@mixin text-basic(){
+  @include text($font-basic, normal, 1.2rem, 1.5);
+  color: $color-black-light;
+}
+
+@mixin text-input(){
+  @include text($font-basic, 300, 1.2rem, 1);
+  color: $color-black;
+}
+
+@mixin text-label(){
+  @include text($font-basic, 400, 1rem, 1.5);
+  color: $color-grey-medium;
+}
+
+@mixin text-list-header(){
+  @include text($font-basic, 400, 1.2rem, 1);
+  color: $main-color;
+}
+
+@mixin text-list-body(){
+  @include text($font-title, 400, 1.2rem, 1);
+  color: $main-color;
+}
+
+@mixin text-list-icon(){
+  @include text($font-icons, 400, 1.4rem, 1);
+  color: $main-color;
+}
+
+@mixin title-favorites(){
+  @include text($font-basic, 400, 1.2rem, 1);
+  color: $color-grey-medium;
+}
+
+@mixin text-path(){
+  @include text($font-basic, 500, 1.4rem, 1);
+  color: $tonic-color;
+}
+
+@mixin text-path-separator(){
+  @include text($font-basic, 500, 1.1rem, 1);
+  color: $tonic-color;
+}
+
+@mixin text-action-buttons(){
+  @include text($font-basic, 600, 1.2rem, 1);
+  color: $main-color;
+}
