@@ -37,7 +37,6 @@ const actions = {
     commit('REMOVE_FROM_FAVORITE', item)
   },
   loadFavs ({ dispatch }) {
-    console.log('on load favs')
     storage.get('favs', (error, data) => {
       if (error) console.log('error getting json', error)
       else {

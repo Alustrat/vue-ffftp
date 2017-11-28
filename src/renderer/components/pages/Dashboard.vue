@@ -21,11 +21,14 @@
           template(scope="scope") {{ scope.row.time | moment("MMM D, YYYY") }}
       .empty(v-if="!items.length")
         p Nothing found there ! :'(
-      div.close('@click'="backToForm()") Retour
+      div.close('@click'="backToForm()")
+        .ion-log-out
+    vc-console
 </template>
 
 <script>
 import ListHeader from '@/components/partials/ListHeader'
+import LogConsole from '@/components/partials/Console'
 import { mapGetters, mapActions } from 'vuex'
 import { ftpLs, ftpDestroy } from '@/utils/ftp'
 import { rewritePath } from '@/utils/regex'
@@ -45,7 +48,8 @@ export default {
     })
   },
   components: {
-    'vc-header': ListHeader
+    'vc-header': ListHeader,
+    'vc-console': LogConsole
   },
   filters: {
     size (bytes) {

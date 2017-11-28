@@ -6,13 +6,9 @@
   }
 
   .close {
+    @include text-logout;
     position: absolute;
-    bottom: 0; left: 0;
-    width: 100%;
-    padding: 2px 0;
-    text-align: center;
-    color: $color-white;
-    background-color: $low-tonic-color;
-    z-index: 100;
+    top: 20px; right: 50px;
+    z-index: 50;
   }
 }

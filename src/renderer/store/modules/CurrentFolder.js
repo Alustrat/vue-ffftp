@@ -3,39 +3,8 @@ import { ftpLs } from '@/utils/ftp'
 import { rewritePath } from '@/utils/regex'
 
 const state = {
-  currentPath: ['.', 'www'],
-  currentItems: [
-    {
-      name: 'wordpress',
-      type: 'd',
-      size: 0,
-      time: 1445964360000
-    },
-    {
-      name: 'portfolio',
-      type: 'd',
-      size: 0,
-      time: 1445964360000
-    },
-    {
-      name: '.ssh',
-      type: 'd',
-      size: 0,
-      time: 1174341120000
-    },
-    {
-      name: 'profilePicture.png',
-      type: '-',
-      size: 14258,
-      time: 1174341120000
-    },
-    {
-      name: '.htaccess',
-      type: '-',
-      size: 300,
-      time: 1174341120000
-    }
-  ]
+  currentPath: ['.'],
+  currentItems: []
 }
 
 const mutations = {
