@@ -61,32 +61,28 @@ export default {
   methods: {
     goBack (index) {
       this.goBackTo(index)
-      this.loadCurrentPath()
+      this.loadItems()
     },
     goFolderUp () {
       this.goUp()
-      this.loadCurrentPath()
+      this.loadItems()
     },
     renameFolder (newName) {
       let oldPath = this.$parent.pathString + '/' + this.$parent.multipleSelection[0].name
       let newPath = this.$parent.pathString + '/' + newName
       ftpRename(oldPath, newPath).then(response => {
-        this.loadCurrentPath()
-      }, (err) => {
-        console.log('error renaming the folder :', err)
+        this.loadItems()
       })
     },
     createFolder (newName) {
       let path = this.$parent.pathString + '/' + newName
       ftpMkdir(path).then(response => {
-        this.loadCurrentPath()
-      }, (err) => {
-        console.log('error creating the folder :', err)
+        this.loadItems()
       })
     },
     deleteFolder () {
       deleteItems(this.$parent.pathString, this.$parent.multipleSelection).then(() => {
-        this.loadCurrentPath()
+        this.loadItems()
       })
     },
     triggerInput () {
@@ -95,11 +91,12 @@ export default {
     saveDownloadPath (e) {
       e.stopPropagation()
       let downloadPath = e.target.files[0].path
-      downloadItems(downloadPath, this.$parent.pathString, this.$parent.multipleSelection)
-      this.loadCurrentPath()
-      e.target.value = ''
+      downloadItems(downloadPath, this.$parent.pathString, this.$parent.multipleSelection).then(() => {
+        e.target.value = ''
+        this.loadItems()
+      })
     },
-    ...mapActions(['goUp', 'goBackTo', 'loadCurrentPath'])
+    ...mapActions(['goUp', 'goBackTo'])
   }
 }
 </script>

@@ -1,6 +1,4 @@
 import {slice, dropRight} from 'lodash'
-import { ftpLs } from '@/utils/ftp'
-import { rewritePath } from '@/utils/regex'
 
 const state = {
   currentPath: ['.'],
@@ -59,14 +57,6 @@ const actions = {
   },
   goBackTo ({ commit }, index) {
     commit('RESET_PATH_TO', index)
-  },
-  loadCurrentPath ({ commit, getters }) {
-    let lsPath = rewritePath(getters.getCurrentPathString)
-    ftpLs(lsPath).then(response => {
-      commit('FILL_FOLDER_ITEMS', response)
-    }, (err) => {
-      console.log('ls error :', err)
-    })
   }
 }
 

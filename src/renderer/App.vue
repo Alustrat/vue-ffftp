@@ -41,7 +41,7 @@ export default {
           }
         }
         uploadItems(this.pathString, items).then(() => {
-          this.loadCurrentPath()
+          this.$emit('reload')
         })
       }
     },

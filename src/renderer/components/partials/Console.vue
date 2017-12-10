@@ -1,11 +1,13 @@
 <template lang="pug">
   .console(v-bind:class="{ open: isOpen }", v-on:click="toggleConsole")
-    i.ion-ios-arrow-up
-    .console-body
-      i.ion-ios-arrow-down
-      p Ceci est un message test statique
-      p(v-for="log in logs") {{ log.message }}
-    .counter {{ count }}
+    .console-header
+      i.ion-ios-arrow-up
+      p(:class="logClass(lastLog.type)") {{ lastLog.message }}
+      .counter {{ count }}
+    .console-main
+      .console-body
+        i.ion-ios-arrow-down
+        p(v-for="log in logs", :class="logClass(log.type)") {{ log.message }}
 </template>
 
 <script>
@@ -20,10 +22,14 @@ export default {
   computed: {
     ...mapGetters({
       logs: 'getLogs',
-      count: 'countLogs'
+      count: 'countLogs',
+      lastLog: 'getLastLog'
     })
   },
   methods: {
+    logClass (type) {
+      return 'type-' + type
+    },
     toggleConsole () {
       this.isOpen = !this.isOpen
     }

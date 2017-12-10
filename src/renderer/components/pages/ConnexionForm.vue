@@ -78,10 +78,6 @@ export default {
         this.validated = false
         this.newPath()
         this.$router.push({name: 'dashboard'})
-      }, (err) => {
-        console.log('err connexion', err)
-        this.validated = false
-        // on affiche un message d'erreur
       })
     },
     ...mapActions(['newPath'])

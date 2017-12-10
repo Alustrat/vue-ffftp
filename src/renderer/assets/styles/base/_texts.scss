@@ -58,7 +58,7 @@
 }
 
 @mixin text-logs(){
-  @include text($font-basic, 500, 1.1rem, 25px);
+  @include text($font-basic, 500, 0.9rem, 25px);
   color: $color-white;
 }
 

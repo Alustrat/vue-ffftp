@@ -96,17 +96,11 @@ export default {
       let path = this.pathString
       let lsPath = rewritePath(path)
       this.loading = true
-      console.log('pathstring : ', lsPath)
       ftpLs(lsPath).then(response => {
-        console.log('items :', response)
         this.fillCurrentItems(response).then(response => {
           this.removeSelection()
           this.loading = false
-        }, (err) => {
-          console.log('error removing selection', err)
         })
-      }, (err) => {
-        console.log('ls err 2', err)
       })
     },
     goToPath (item) {
@@ -115,9 +109,13 @@ export default {
     },
     backToForm () {
       ftpDestroy()
+      this.clearLogs()
       this.$router.push({name: 'connexion-form'})
     },
-    ...mapActions(['fillCurrentItems', 'goInto'])
+    ...mapActions(['fillCurrentItems', 'goInto', 'clearLogs'])
+  },
+  created () {
+    this.$parent.$on('reload', this.loadItems)
   }
 }
 </script>
