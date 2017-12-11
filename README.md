@@ -7,7 +7,7 @@
 
 A little electron application to connect to your servers through FTP. It is a copy of the original project <a href="https://github.com/mitchas/ffftp">ffftp</a>. Hope you will like it and please don't hesitate to provide feedback or suggest new features. This project works on <a href="https://github.com/SimulatedGREG/electron-vue">electron-vue</a>.
 
-# Support
+Support
 ----------
 
 ### FTP
@@ -24,8 +24,8 @@ A little electron application to connect to your servers through FTP. It is a co
 Run local
 ----------
 
-  # install dependencies
-  npm install
+	# install dependencies
+	npm install
 
 	# run electron in development mod
 	npm run dev
