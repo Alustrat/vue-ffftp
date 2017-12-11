@@ -18,7 +18,11 @@ export function deleteItems (currentPath, items) {
     eachOf(items, (item, i, callback) => {
       let filePath = `${currentPath}/${item.name}`
       if (item.type === 'd') {
-        ftpRmdir(filePath, true).then(response => { callback() }, () => { callback() })
+        ftpLs(rewritePath(filePath)).then(list => {
+          deleteItems(filePath, list).then(() => {
+            ftpRmdir(filePath).then(response => { callback() }, () => { callback() })
+          })
+        })
       } else if (item.type === '-') {
         ftpDelete(filePath).then(response => { callback() }, () => { callback() })
       }
