@@ -1,25 +1,34 @@
-# vue-ffftp
+# Vue-ffftp
+<div>
+  <p align="center">
+    <a href="https://github.com/Alustrat/vue-ffftp/releases/download/v1.0.0/vue-ffftp-1.0.0.exe"><img src="https://raw.githubusercontent.com/Alustrat/vue-ffftp/master/static/img/logo.png"></a>
+  </p>
+</div>
 
-> A copy of the real ffftp project on vue
+A little electron application to connect to your servers through FTP. It is a copy of the original project <a href="https://github.com/mitchas/ffftp">ffftp</a>. Hope you will like it and please don't hesitate to provide feedback or suggest new features. This project works on <a href="https://github.com/SimulatedGREG/electron-vue">electron-vue</a>.
 
-#### Build Setup
+# Support
+----------
 
-``` bash
-# install dependencies
-npm install
+### FTP
+* Connexion
+* Upload
+* Download
+* Delete
+* Mkdir
+* Rename
 
-# serve with hot reload at localhost:9080
-npm run dev
+### SFTP
+* On work
 
-# build electron application for production
-npm run build
+Run local
+----------
 
+  # install dependencies
+  npm install
 
-# lint all JS/Vue component files in `src/`
-npm run lint
+	# run electron in development mod
+	npm run dev
 
-```
-
----
-
-This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue)@[9c9bf75](https://github.com/SimulatedGREG/electron-vue/tree/9c9bf75630add075bfa58f52e391e82fb1b9f44a) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
+	# build electron application for your laptop
+	npm run build
