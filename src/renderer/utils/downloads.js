@@ -18,21 +18,13 @@ export function deleteItems (currentPath, items) {
     eachOf(items, (item, i, callback) => {
       let filePath = `${currentPath}/${item.name}`
       if (item.type === 'd') {
-        ftpRmdir(filePath, true).then(response => {
-          console.log('successfully removing the folder', item.name)
-          callback()
-        }, (err) => {
-          if (err) console.log('error removing the folder :', item.name)
-          callback()
+        ftpLs(rewritePath(filePath)).then(list => {
+          deleteItems(filePath, list).then(() => {
+            ftpRmdir(filePath).then(response => { callback() }, () => { callback() })
+          })
         })
       } else if (item.type === '-') {
-        ftpDelete(filePath).then(response => {
-          console.log('successfully deleting the file', item.name)
-          callback()
-        }, (err) => {
-          if (err) console.log('error deleting the file :', item.name)
-          callback()
-        })
+        ftpDelete(filePath).then(response => { callback() }, () => { callback() })
       }
     }, (err) => {
       if (err) reject(err)
@@ -53,22 +45,15 @@ export function downloadItems (downloadPath, currentPath, items) {
     eachOf(items, (item, i, callback) => {
       if (item.type === 'd') {
         foldersToCreate.push({'path': currentPath, 'name': item.name})
-        getDownloadTree(`${currentPath}/${item.name}`).then(() => {
-          callback()
-        })
+        getDownloadTree(`${currentPath}/${item.name}`).then(() => { callback() })
       } else if (item.type === '-') {
         filesToDownload.push({'path': currentPath, 'name': item.name})
         callback()
       }
     }, (err) => {
       if (err) reject(err)
-      console.log('fin du listing !')
-      console.log('Début de la création des folders')
       createFoldersToDisk(currentPath, downloadPath).then(() => {
-        console.log('fin de la création des folders !')
-        console.log('Début des downloads de fichier')
         downloadFilesToDisk(currentPath, downloadPath).then(() => {
-          console.log('fin des downloads de fichiers')
           resolve()
         })
       })
@@ -94,13 +79,8 @@ export function getDownloadTree (path) {
         getDownloadTree(`${folder.path}/${folder.name}`).then(() => {
           callback()
         })
-      }, () => {
-        resolve()
-      })
-    }, (err) => {
-      console.log('error listing the folder', err)
-      reject(err)
-    })
+      }, () => { resolve() })
+    }, (err) => { reject(err) })
   })
 }
 
@@ -110,12 +90,7 @@ function createFoldersToDisk (currentPath, downloadPath) {
       let localPath = `${folder.path}${dirSeperator}${folder.name}`
         .replace(currentPath, '')
         .replace('/', dirSeperator)
-      console.log('starting creating the folder', folder.name)
-      fs.mkdir(`${downloadPath}${dirSeperator}${localPath}`, (err) => {
-        if (err) console.log('error creating the folder', err)
-        else console.log('successfully creating the folder', folder.name)
-        callback()
-      })
+      fs.mkdir(`${downloadPath}${dirSeperator}${localPath}`, () => { callback() })
     }, (err) => {
       if (err) reject(err)
       resolve()
@@ -129,17 +104,10 @@ function downloadFilesToDisk (currentPath, downloadPath) {
       let newFilePath = `${file.path}${dirSeperator}${file.name}`
           .replace(currentPath, '')
           .replace('/', dirSeperator)
-      console.log('starting to download the file : ', file.path)
       ftpDownload(`${file.path}/${file.name}`).then(response => {
         let stream = response.pipe(fs.createWriteStream(`${downloadPath}${dirSeperator}${newFilePath}`))
-        stream.on('finish', () => {
-          console.log('succesfully uploaded the file : ', file.name)
-          callback()
-        })
-      }, (err) => {
-        console.log('error uploading the file : ', file.name, err)
-        callback()
-      })
+        stream.on('finish', () => { callback() })
+      }, () => { callback() })
     }, (err) => {
       if (err) reject(err)
       resolve()
@@ -165,9 +133,7 @@ export function uploadItems (currentPath, items) {
         if (err) console.log('error accessing to the stats of ', item.path)
         else if (stats.isDirectory()) {
           foldersToCreate.push({'path': item.path, 'name': item.name})
-          getUploadTree(item.path).then(() => {
-            callback()
-          })
+          getUploadTree(item.path).then(() => { callback() })
         } else if (stats.isFile()) {
           filesToDownload.push({'path': item.path, 'name': item.name})
           callback()
@@ -175,15 +141,8 @@ export function uploadItems (currentPath, items) {
       })
     }, (err) => {
       if (err) reject(err)
-      console.log('fin du listing !')
-      console.log('Début de la création des folders')
       createFoldersToDist(currentPath, uploadPath).then(() => {
-        console.log('fin de la création des folders !')
-        console.log('Début des uploads de fichier')
-        uploadFilesToDist(currentPath, uploadPath).then(() => {
-          console.log('fin des uploads de fichiers')
-          resolve()
-        })
+        uploadFilesToDist(currentPath, uploadPath).then(() => { resolve() })
       })
     })
   })
@@ -207,9 +166,7 @@ function getUploadTree (path) {
       folders.forEach(folder => {
         uploadTreePromises.push(getUploadTree(folder.path))
       })
-      Promise.all(uploadTreePromises).then((result) => {
-        resolve()
-      })
+      Promise.all(uploadTreePromises).then((result) => { resolve() })
     })
   })
 }
@@ -220,14 +177,7 @@ function createFoldersToDist (currentPath, uploadPath) {
       let distPath = currentPath + (folder.path
           .replace(uploadPath, '')
           .replace(/\\/g, '/'))
-      console.log('starting creating the folder', folder.name)
-      ftpMkdir(distPath).then(response => {
-        console.log('successfully creating the folder', folder.name)
-        callback()
-      }, (err) => {
-        console.log('error creating the folder :', err)
-        callback()
-      })
+      ftpMkdir(distPath).then(response => { callback() }, () => { callback() })
     }, (err) => {
       if (err) reject(err)
       resolve()
@@ -241,12 +191,7 @@ function uploadFilesToDist (currentPath, uploadPath) {
       let distPath = currentPath + (file.path
             .replace(uploadPath, '')
             .replace(/\\/g, '/'))
-      console.log('starting to upload the file : ', file.path)
-      ftpUpload(file.path, distPath).then(err => {
-        if (err) console.log('error uploading the file : ', file.name)
-        else console.log('succesfully uploaded the file : ', file.name)
-        callback()
-      })
+      ftpUpload(file.path, distPath).then(() => { callback() })
     }, (err) => {
       if (err) reject(err)
       resolve()

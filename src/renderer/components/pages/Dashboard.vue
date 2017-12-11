@@ -21,11 +21,14 @@
           template(scope="scope") {{ scope.row.time | moment("MMM D, YYYY") }}
       .empty(v-if="!items.length")
         p Nothing found there ! :'(
-      div.close('@click'="backToForm()") Retour
+      div.close('@click'="backToForm()")
+        .ion-log-out
+    vc-console
 </template>
 
 <script>
 import ListHeader from '@/components/partials/ListHeader'
+import LogConsole from '@/components/partials/Console'
 import { mapGetters, mapActions } from 'vuex'
 import { ftpLs, ftpDestroy } from '@/utils/ftp'
 import { rewritePath } from '@/utils/regex'
@@ -45,7 +48,8 @@ export default {
     })
   },
   components: {
-    'vc-header': ListHeader
+    'vc-header': ListHeader,
+    'vc-console': LogConsole
   },
   filters: {
     size (bytes) {
@@ -92,17 +96,11 @@ export default {
       let path = this.pathString
       let lsPath = rewritePath(path)
       this.loading = true
-      console.log('pathstring : ', lsPath)
       ftpLs(lsPath).then(response => {
-        console.log('items :', response)
         this.fillCurrentItems(response).then(response => {
           this.removeSelection()
           this.loading = false
-        }, (err) => {
-          console.log('error removing selection', err)
         })
-      }, (err) => {
-        console.log('ls err 2', err)
       })
     },
     goToPath (item) {
@@ -111,9 +109,13 @@ export default {
     },
     backToForm () {
       ftpDestroy()
+      this.clearLogs()
       this.$router.push({name: 'connexion-form'})
     },
-    ...mapActions(['fillCurrentItems', 'goInto'])
+    ...mapActions(['fillCurrentItems', 'goInto', 'clearLogs'])
+  },
+  created () {
+    this.$parent.$on('reload', this.loadItems)
   }
 }
 </script>

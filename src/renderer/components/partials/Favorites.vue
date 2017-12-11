@@ -30,12 +30,9 @@ export default {
       this.$store.commit('REMOVE_FROM_FAVORITE', item)
     },
     connect (item) {
-      console.log('item', item)
       ftpNewConnexion(item.serverConfig).then(response => {
         this.newPath()
         this.$router.push({name: 'dashboard'})
-      }, (err) => {
-        console.log('err connexion', err)
       })
     },
     ...mapActions(['newPath'])

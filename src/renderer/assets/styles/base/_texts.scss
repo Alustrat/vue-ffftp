@@ -56,3 +56,18 @@
   @include text($font-basic, 600, 1.2rem, 1);
   color: $main-color;
 }
+
+@mixin text-logs(){
+  @include text($font-basic, 500, 0.9rem, 25px);
+  color: $color-white;
+}
+
+@mixin text-logs-counter(){
+  @include text($font-basic, 600, 0.8rem, 20px);
+  color: $main-color;
+}
+
+@mixin text-logout(){
+  @include text($font-basic, 600, 1.8rem, 1);
+  color: $main-color;
+}
