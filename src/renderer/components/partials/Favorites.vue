@@ -9,7 +9,6 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { ftpNewConnexion } from '@/utils/ftp'
 
 export default {
   data () {
@@ -30,7 +29,7 @@ export default {
       this.$store.commit('REMOVE_FROM_FAVORITE', item)
     },
     connect (item) {
-      ftpNewConnexion(item.serverConfig).then(response => {
+      this.$server.connect(this.newConnexion).then(() => {
         this.newPath()
         this.$router.push({name: 'dashboard'})
       })

@@ -4,10 +4,11 @@ import axios from 'axios'
 import App from './App'
 import router from './router'
 import store from './store'
+import Server from './utils/server'
 
 // Element ui
 import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-default/index.css'
+import 'element-ui/lib/theme-chalk/index.css'
 
 import { directive as onClickOutside } from 'vue-on-click-outside'
 
@@ -24,6 +25,8 @@ Vue.directive('on-click-outside', onClickOutside)
 Vue.prototype.$last = function (index, list) {
   return index === list.length - 1
 }
+
+Vue.prototype.$server = new Server()
 
 document.ondragover = document.ondrop = (ev) => {
   ev.preventDefault()

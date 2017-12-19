@@ -1,5 +1,5 @@
 <template lang="pug">
-  el-dialog(:visible.sync="mkdirPopupVisible", size="full")
+  el-dialog(:visible.sync="mkdirPopupVisible", fullscreen=true)
     .container.container-pop-up
       el-form(:model="newFolder", :rules="newFolderRules", ref="newFolderForm")
         el-row(':gutter'="20")

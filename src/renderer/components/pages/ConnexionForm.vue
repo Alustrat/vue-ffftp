@@ -1,6 +1,6 @@
 <template lang="pug">
   .Home
-    <vc-header></vc-header>
+    vc-header
     .container.container-form.container-center
       el-form(:model="newConnexion", :rules="connexionRules", ref="connexionForm")
         el-row(':gutter'="20")
@@ -36,7 +36,6 @@ import Header from '@/components/partials/Header'
 import Favorites from '@/components/partials/Favorites'
 import FavPopUp from '@/components/partials/FavPopUp'
 import { mapActions } from 'vuex'
-import { ftpNewConnexion } from '@/utils/ftp'
 
 export default {
   data () {
@@ -45,7 +44,7 @@ export default {
       dialogVisible: false,
       newConnexion: {
         name: '',
-        connexionType: 'ftp',
+        sftp: false,
         serverConfig: {
           host: '',
           user: '',
@@ -74,8 +73,7 @@ export default {
     },
     connect (formName) {
       this.validated = false
-      ftpNewConnexion(this.newConnexion.serverConfig).then(response => {
-        this.validated = false
+      this.$server.connect(this.newConnexion).then(() => {
         this.newPath()
         this.$router.push({name: 'dashboard'})
       })

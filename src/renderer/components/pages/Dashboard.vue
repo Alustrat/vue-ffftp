@@ -30,7 +30,6 @@
 import ListHeader from '@/components/partials/ListHeader'
 import LogConsole from '@/components/partials/Console'
 import { mapGetters, mapActions } from 'vuex'
-import { ftpLs, ftpDestroy } from '@/utils/ftp'
 import { rewritePath } from '@/utils/regex'
 
 export default {
@@ -96,7 +95,7 @@ export default {
       let path = this.pathString
       let lsPath = rewritePath(path)
       this.loading = true
-      ftpLs(lsPath).then(response => {
+      this.$server.connexion.ls(lsPath).then((response) => {
         this.fillCurrentItems(response).then(response => {
           this.removeSelection()
           this.loading = false
@@ -108,7 +107,7 @@ export default {
       this.loadItems()
     },
     backToForm () {
-      ftpDestroy()
+      this.$server.connexion.disconnect()
       this.clearLogs()
       this.$router.push({name: 'connexion-form'})
     },
