@@ -29,7 +29,7 @@ export default {
       this.$store.commit('REMOVE_FROM_FAVORITE', item)
     },
     connect (item) {
-      this.$server.connect(this.newConnexion).then(() => {
+      this.$server.connect(item).then(() => {
         this.newPath()
         this.$router.push({name: 'dashboard'})
       })
