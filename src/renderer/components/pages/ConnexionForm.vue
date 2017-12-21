@@ -3,6 +3,14 @@
     vc-header
     .container.container-form.container-center
       el-form(:model="newConnexion", :rules="connexionRules", ref="connexionForm")
+        el-row(':gutter'="20", class="switch-row")
+          el-col(':span'="20")
+            el-switch(v-model="newConnexion.sftp", class="switch-sftp"
+              active-text="SFTP",
+              inactive-text="FTP",
+              active-color="#ffd818",
+              inactive-color="#409eff")
+            el-checkbox(v-if="newConnexion.sftp", v-model="sshKey", class="checkbox-key") Use ssh key
         el-row(':gutter'="20")
           el-col(':span'="6")
             el-form-item(prop="serverConfig.host")
@@ -13,9 +21,12 @@
               el-input(type="text", v-model="newConnexion.serverConfig.user", placeholder="johndoe")
               .label username
           el-col(':span'="6")
-            el-form-item(prop="serverConfig.password")
+            el-form-item(v-if="!sshKey || !newConnexion.sftp", prop="serverConfig.password")
               el-input(type="password", v-model="newConnexion.serverConfig.password", placeholder="••••••••")
               .label password
+            el-form-item(v-if="sshKey && newConnexion.sftp", prop="serverConfig.keyPath")
+              el-input(type="text", v-model="newConnexion.serverConfig.keyPath", placeholder="~/.ssh/id_rsa")
+              .label key path
           el-col(':span'="6")
             el-form-item(prop="serverConfig.port")
               el-input(type="number", v-model.number="newConnexion.serverConfig.port", placeholder="21")
@@ -35,13 +46,13 @@
 import Header from '@/components/partials/Header'
 import Favorites from '@/components/partials/Favorites'
 import FavPopUp from '@/components/partials/FavPopUp'
-import { mapActions } from 'vuex'
 
 export default {
   data () {
     return {
       validated: false,
       dialogVisible: false,
+      sshKey: false,
       newConnexion: {
         name: '',
         sftp: false,
@@ -49,6 +60,7 @@ export default {
           host: '',
           user: '',
           password: '',
+          keyPath: '',
           port: 21
         }
       },
@@ -74,11 +86,9 @@ export default {
     connect (formName) {
       this.validated = false
       this.$server.connect(this.newConnexion).then(() => {
-        this.newPath()
         this.$router.push({name: 'dashboard'})
       })
-    },
-    ...mapActions(['newPath'])
+    }
   }
 }
 </script>

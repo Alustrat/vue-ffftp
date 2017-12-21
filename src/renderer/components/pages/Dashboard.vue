@@ -30,7 +30,6 @@
 import ListHeader from '@/components/partials/ListHeader'
 import LogConsole from '@/components/partials/Console'
 import { mapGetters, mapActions } from 'vuex'
-import { rewritePath } from '@/utils/regex'
 
 export default {
   data () {
@@ -93,9 +92,8 @@ export default {
     },
     loadItems () {
       let path = this.pathString
-      let lsPath = rewritePath(path)
       this.loading = true
-      this.$server.connexion.ls(lsPath).then((response) => {
+      this.$server.connexion.ls(path).then((response) => {
         this.fillCurrentItems(response).then(response => {
           this.removeSelection()
           this.loading = false

@@ -1,8 +1,9 @@
 import Ftp from './ftp'
 import Sftp from './sftp'
+import store from '../store/index'
 import eachOf from 'async/eachOf'
 import eachOfLimit from 'async/eachOfLimit'
-import { rewritePath, getDownloadPath, getUploadPath, getUploadLocalPath, getItemPath } from '@/utils/regex'
+import { getDownloadPath, getUploadPath, getUploadLocalPath, getItemPath } from '@/utils/regex'
 
 const fs = require('fs-extra')
 
@@ -14,7 +15,9 @@ export default class Server {
   }
 
   async connect (config) {
+    config.serverConfig.username = config.serverConfig.user
     this.connexion = config.sftp ? new Sftp() : new Ftp()
+    store.dispatch('resetPath', config.sftp)
 
     return this.connexion.connect(config.serverConfig)
   }
@@ -28,7 +31,7 @@ export default class Server {
       eachOf(items, (item, i, callback) => {
         let filePath = `${currentPath}/${item.name}`
         if (item.type === 'd') {
-          this.connexion.ls(rewritePath(filePath))
+          this.connexion.ls(filePath)
             .then((list) => this.deleteItems(filePath, list))
             .then(() => this.connexion.rmdir(filePath))
             .then(() => callback())
@@ -54,7 +57,7 @@ export default class Server {
       eachOf(items, (item, i, callback) => {
         if (item.type === 'd') {
           this.foldersToCreate.push({'path': path, 'name': item.name})
-          this.connexion.ls(rewritePath(`${path}/${item.name}`))
+          this.connexion.ls(`${path}/${item.name}`)
             .then((subItems) => this.downloadItems(subItems, `${path}/${item.name}`))
             .then(() => callback())
         } else if (item.type === '-') {
@@ -82,11 +85,8 @@ export default class Server {
   downloadFilesToDisk (basePath, downloadPath) {
     return new Promise((resolve, reject) => {
       eachOfLimit(this.filesToDownload, 1, (file, i, callback) => {
-        this.connexion.download(`${file.path}/${file.name}`)
-          .then(response => {
-            let stream = response.pipe(fs.createWriteStream(getDownloadPath(basePath, downloadPath, file)))
-            stream.on('finish', () => callback())
-          })
+        this.connexion.download(`${file.path}/${file.name}`, getDownloadPath(basePath, downloadPath, file))
+          .then(() => callback())
       }, () => resolve())
     })
   }

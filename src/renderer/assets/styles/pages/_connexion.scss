@@ -1,0 +1,12 @@
+.switch-row {
+  margin-bottom: 15px;
+
+  .switch-sftp {
+    .el-switch__label.el-switch__label--left.is-active { color: #409eff }
+    .el-switch__label.el-switch__label--right.is-active { color: #ffd818 }
+  }
+
+  .checkbox-key {
+    padding-left: 30px;
+  }
+}

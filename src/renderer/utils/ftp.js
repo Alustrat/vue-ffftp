@@ -1,6 +1,8 @@
 import store from '../store/index'
+import { rewritePath } from '@/utils/regex'
 
 const Client = require('ftp')
+const fs = require('fs-extra')
 
 export default class Ftp {
   constructor () {
@@ -37,6 +39,7 @@ export default class Ftp {
   }
 
   ls (path) {
+    path = rewritePath(path)
     return new Promise((resolve, reject) => {
       store.dispatch('addLog', { type: '1', message: `Listing path "${path}" ...` })
       this.connexion.list(path, (err, data) => {
@@ -120,26 +123,27 @@ export default class Ftp {
     })
   }
 
-  download (path) {
+  download (distPath, localPath) {
     return new Promise((resolve, reject) => {
-      store.dispatch('addLog', { type: '1', message: `Downloading file "${path}" ...` })
-      this.connexion.get(path, (err, data) => {
+      store.dispatch('addLog', { type: '1', message: `Downloading file "${distPath}" ...` })
+      this.connexion.get(distPath, (err, data) => {
         if (err) {
-          store.dispatch('addLog', { type: '2', message: `Error downloading file : ${path}` })
+          store.dispatch('addLog', { type: '2', message: `Error downloading file : ${distPath}` })
           store.dispatch('addLog', { type: '4', message: err })
           reject(err)
         } else {
-          store.dispatch('addLog', { type: '3', message: `Sucess downloading file : ${path}` })
-          resolve(data)
+          store.dispatch('addLog', { type: '3', message: `Sucess downloading file : ${distPath}` })
+          let stream = data.pipe(fs.createWriteStream(localPath))
+          stream.on('finish', () => resolve())
         }
       })
     })
   }
 
-  upload (filePath, distPath) {
+  upload (localPath, distPath) {
     return new Promise((resolve, reject) => {
       store.dispatch('addLog', { type: '1', message: `Uploading file "${distPath}" ...` })
-      this.connexion.put(filePath, distPath, (err) => {
+      this.connexion.put(localPath, distPath, (err) => {
         if (err) {
           store.dispatch('addLog', { type: '2', message: `Error uploading file : ${distPath}` })
           store.dispatch('addLog', { type: '4', message: err })

@@ -1,14 +1,14 @@
 <template lang="pug">
   .favorites(v-if="favs.length")
-    .favorites-header favorites :
+    .favorites-header Favorites :
     el-row.list-favorites(':gutter'="15")
-      el-col.col-center(':span'="4", v-for="fav in favs" ':key'="fav.name")
-        el-button(type="primary" '@click'="connect(fav)") {{ fav.name }}
+      el-col.col-center(':span'="4", v-for="fav in favs", ':key'="fav.name")
+        el-button(type="primary", '@click'="connect(fav)", v-bind:class="{ favSftp: fav.sftp }") {{ fav.name }}
         .label.label-click('@click'="removeFromFavorites(fav)") delete
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   data () {
@@ -30,11 +30,9 @@ export default {
     },
     connect (item) {
       this.$server.connect(item).then(() => {
-        this.newPath()
         this.$router.push({name: 'dashboard'})
       })
-    },
-    ...mapActions(['newPath'])
+    }
   }
 }
 </script>

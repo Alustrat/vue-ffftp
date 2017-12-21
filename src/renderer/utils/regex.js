@@ -5,6 +5,13 @@ export function rewritePath (path) {
   return path.replace(/([^a-zA-Z0-9.\/])/g, '\\$1')
 }
 
+export function rewritePathForSftp (path) {
+  let sftpPath = (path
+    .replace(/\//g, "'/'")
+    .replace(/'/, '')) + "'"
+  return sftpPath
+}
+
 export function getDownloadPath (currentPath, downloadPath, item) {
   let itemPath = `${item.path}${dirSeperator}${item.name}`
   .replace(currentPath, '')

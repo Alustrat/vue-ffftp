@@ -12,8 +12,8 @@ const mutations = {
   DROP_FOLDER_ITEMS (state) {
     state.currentItems = []
   },
-  RESET_PATH (state) {
-    state.currentPath = slice(state.currentPath, 0, 1)
+  NEW_PATH (state, rootFolder) {
+    state.currentPath = [rootFolder]
   },
   RESET_PATH_TO (state, index) {
     state.currentPath = slice(state.currentPath, 0, index + 1)
@@ -46,8 +46,8 @@ const actions = {
   dropCurrentItems ({ commit }) {
     commit('DROP_FOLDER_ITEMS')
   },
-  newPath ({ commit }) {
-    commit('RESET_PATH')
+  resetPath ({ commit }, sftp) {
+    commit('NEW_PATH', '.')
   },
   goUp ({ commit }) {
     commit('REMOVE_ONE')

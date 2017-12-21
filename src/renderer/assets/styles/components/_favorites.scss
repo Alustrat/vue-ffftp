@@ -11,6 +11,11 @@
       margin-bottom: 20px;
       button{
         width: 100%;
+
+        &.el-button--primary.favSftp {
+          background-color: #ffd818 !important;
+          border-color: #ffd818 !important;
+        }
       }
     }
   }
