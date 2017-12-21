@@ -3,7 +3,7 @@ import Sftp from './sftp'
 import store from '../store/index'
 import eachOf from 'async/eachOf'
 import eachOfLimit from 'async/eachOfLimit'
-import { getDownloadPath, getUploadPath, getUploadLocalPath, getItemPath } from '@/utils/regex'
+import { rewritePirateKey, getDownloadPath, getUploadPath, getUploadLocalPath, getItemPath } from '@/utils/regex'
 
 const fs = require('fs-extra')
 
@@ -14,10 +14,17 @@ export default class Server {
     this.filesToDownload = []
   }
 
-  async connect (config) {
+  async connect (config, passphrase = null) {
     config.serverConfig.username = config.serverConfig.user
+    if (passphrase !== null) {
+      delete config.serverConfig.user
+      delete config.serverConfig.password
+      config.serverConfig.privateKey = rewritePirateKey(config.serverConfig.privateKey)
+      config.serverConfig.passphrase = passphrase
+    }
+
     this.connexion = config.sftp ? new Sftp() : new Ftp()
-    store.dispatch('resetPath', config.sftp)
+    store.dispatch('resetPath')
 
     return this.connexion.connect(config.serverConfig)
   }

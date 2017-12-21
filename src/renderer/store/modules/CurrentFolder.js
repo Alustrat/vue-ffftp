@@ -46,7 +46,7 @@ const actions = {
   dropCurrentItems ({ commit }) {
     commit('DROP_FOLDER_ITEMS')
   },
-  resetPath ({ commit }, sftp) {
+  resetPath ({ commit }) {
     commit('NEW_PATH', '.')
   },
   goUp ({ commit }) {

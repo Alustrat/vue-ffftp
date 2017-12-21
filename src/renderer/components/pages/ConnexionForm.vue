@@ -24,8 +24,8 @@
             el-form-item(v-if="!sshKey || !newConnexion.sftp", prop="serverConfig.password")
               el-input(type="password", v-model="newConnexion.serverConfig.password", placeholder="••••••••")
               .label password
-            el-form-item(v-if="sshKey && newConnexion.sftp", prop="serverConfig.keyPath")
-              el-input(type="text", v-model="newConnexion.serverConfig.keyPath", placeholder="~/.ssh/id_rsa")
+            el-form-item(v-if="sshKey && newConnexion.sftp", prop="serverConfig.privateKey")
+              el-input(type="text", v-model="newConnexion.serverConfig.privateKey", placeholder="~/.ssh/id_rsa")
               .label key path
           el-col(':span'="6")
             el-form-item(prop="serverConfig.port")
@@ -34,11 +34,12 @@
         el-row.row-form-buttons
           el-col.col-right(':span'="24")
             el-button(':plain'="true", type="info", @click="loadPopUp('connexionForm')") save to favorites
-            el-button(type="success", '@click'="connect('connexionForm1')", ':disabled'="validated") connect
+            el-button(type="success", '@click'="connect(newConnexion)") connect
         
-      vc-favorites
+      vc-favorites(:connect="connect")
     
     vc-fav-popup(:new-connexion="newConnexion", :dialog-visible="dialogVisible")
+    vc-pass-popup(:isPassPopupVisible="isPassPopupVisible", :connect="connect", :item="itemPassPopup")
 
 </template>
 
@@ -46,12 +47,14 @@
 import Header from '@/components/partials/Header'
 import Favorites from '@/components/partials/Favorites'
 import FavPopUp from '@/components/partials/FavPopUp'
+import PassPopUp from '@/components/partials/PassPopUp'
 
 export default {
   data () {
     return {
-      validated: false,
       dialogVisible: false,
+      isPassPopupVisible: false,
+      itemPassPopup: '',
       sshKey: false,
       newConnexion: {
         name: '',
@@ -60,7 +63,7 @@ export default {
           host: '',
           user: '',
           password: '',
-          keyPath: '',
+          privateKey: '',
           port: 21
         }
       },
@@ -71,10 +74,17 @@ export default {
       }
     }
   },
+  watch: {
+    sshKey: function (newValue) {
+      newValue ? this.newConnexion.serverConfig.password = ''
+        : this.newConnexion.serverConfig.privateKey = ''
+    }
+  },
   components: {
     'vc-header': Header,
     'vc-favorites': Favorites,
-    'vc-fav-popup': FavPopUp
+    'vc-fav-popup': FavPopUp,
+    'vc-pass-popup': PassPopUp
   },
   methods: {
     loadPopUp (formName) {
@@ -83,11 +93,16 @@ export default {
         this.dialogVisible = true
       })
     },
-    connect (formName) {
-      this.validated = false
-      this.$server.connect(this.newConnexion).then(() => {
-        this.$router.push({name: 'dashboard'})
-      })
+    connect (item, passphrase = null) {
+      if (item.sftp && item.serverConfig.privateKey !== '' && passphrase === null) {
+        this.isPassPopupVisible = true
+        this.itemPassPopup = item
+      } else {
+        this.$server.connect(JSON.parse(JSON.stringify(item)), passphrase).then(() => {
+          this.isPassPopupVisible = false
+          this.$router.push({name: 'dashboard'})
+        })
+      }
     }
   }
 }

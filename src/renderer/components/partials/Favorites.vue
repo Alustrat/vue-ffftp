@@ -19,6 +19,7 @@ export default {
       port: ''
     }
   },
+  props: ['connect'],
   computed: {
     ...mapGetters({
       favs: 'getFavs'
@@ -27,11 +28,6 @@ export default {
   methods: {
     removeFromFavorites (item) {
       this.$store.commit('REMOVE_FROM_FAVORITE', item)
-    },
-    connect (item) {
-      this.$server.connect(item).then(() => {
-        this.$router.push({name: 'dashboard'})
-      })
     }
   }
 }

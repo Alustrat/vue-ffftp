@@ -1,4 +1,10 @@
 const dirSeperator = '\\'
+const home = require('os').homedir()
+
+export function rewritePirateKey (path) {
+  return path.replace('~', home)
+    .replace(/\//g, dirSeperator)
+}
 
 export function rewritePath (path) {
   // eslint-disable-next-line no-useless-escape
