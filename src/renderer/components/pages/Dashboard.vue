@@ -21,8 +21,6 @@
           template(scope="scope") {{ scope.row.time | moment("MMM D, YYYY") }}
       .empty(v-if="!items.length")
         p Nothing found there ! :'(
-      div.close('@click'="backToForm()")
-        .ion-log-out
     vc-console
 </template>
 
@@ -104,12 +102,7 @@ export default {
       if (item.type === 'd') this.goInto(item.name)
       this.loadItems()
     },
-    backToForm () {
-      this.$server.connexion.disconnect()
-      this.clearLogs()
-      this.$router.push({name: 'connexion-form'})
-    },
-    ...mapActions(['fillCurrentItems', 'goInto', 'clearLogs'])
+    ...mapActions(['fillCurrentItems', 'goInto'])
   },
   created () {
     this.$parent.$on('reload', this.loadItems)

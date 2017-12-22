@@ -3,13 +3,13 @@
     el-row
       el-col.col-center(':span'="24")
         a(href="http://ffftp.site", target="_blank")
-          img#header-logo(src="/static/img/logo.png")
+          img#header-logo(v-bind:src="logoUrl")
 </template>
 
 <script>
 export default {
   data () {
-    return {}
+    return { logoUrl: 'static/img/logo.png' }
   }
 }
 </script>
