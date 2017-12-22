@@ -31,8 +31,6 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { ftpMkdir, ftpRename } from '@/utils/ftp'
-import { deleteItems, downloadItems } from '@/utils/downloads'
 import MkdirPopup from '@/components/partials/MkdirPopup'
 import RenamePopup from '@/components/partials/RenamePopup'
 
@@ -70,18 +68,18 @@ export default {
     renameFolder (newName) {
       let oldPath = this.$parent.pathString + '/' + this.$parent.multipleSelection[0].name
       let newPath = this.$parent.pathString + '/' + newName
-      ftpRename(oldPath, newPath).then(response => {
+      this.$server.connexion.rename(oldPath, newPath).then(response => {
         this.loadItems()
       })
     },
     createFolder (newName) {
       let path = this.$parent.pathString + '/' + newName
-      ftpMkdir(path).then(response => {
+      this.$server.connexion.mkdir(path).then(response => {
         this.loadItems()
       })
     },
     deleteFolder () {
-      deleteItems(this.$parent.pathString, this.$parent.multipleSelection).then(() => {
+      this.$server.deleteItems(this.$parent.pathString, this.$parent.multipleSelection).then(() => {
         this.loadItems()
       })
     },
@@ -91,10 +89,11 @@ export default {
     saveDownloadPath (e) {
       e.stopPropagation()
       let downloadPath = e.target.files[0].path
-      downloadItems(downloadPath, this.$parent.pathString, this.$parent.multipleSelection).then(() => {
-        e.target.value = ''
-        this.loadItems()
-      })
+      this.$server.downloadItems(this.$parent.multipleSelection, this.$parent.pathString, downloadPath)
+        .then(() => {
+          e.target.value = ''
+          this.loadItems()
+        })
     },
     ...mapActions(['goUp', 'goBackTo'])
   }

@@ -8,7 +8,6 @@
 <script>
 import DragHover from '@/components/partials/DragHover'
 import { mapGetters, mapActions } from 'vuex'
-import { uploadItems } from '@/utils/downloads'
 
 export default {
   data () {
@@ -34,15 +33,13 @@ export default {
 
       if (dt.items) {
         for (var i = 0; i < dt.items.length; i++) {
-          console.log('kinf :', dt.items[i].kind)
           if (dt.items[i].kind === 'file') {
             var f = dt.items[i].getAsFile()
             items.push(f)
           }
         }
-        uploadItems(this.pathString, items).then(() => {
-          this.$emit('reload')
-        })
+        this.$server.uploadItems(items, this.pathString)
+          .then(() => this.$emit('reload'))
       }
     },
     ...mapActions(['loadCurrentPath', 'loadFavs'])

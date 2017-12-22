@@ -2,7 +2,7 @@
   el-dialog(
     title="Tips",
     :visible.sync="dialogVisible",
-    size="full")
+    fullscreen=true)
     .container.container-pop-up
       el-form(:model="newConnexion", :rules="nameRules", ref="nameForm")
         el-row(':gutter'="20")

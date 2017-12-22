@@ -1,5 +1,5 @@
 <template lang="pug">
-  el-dialog(title="Tips", :visible.sync="renamePopupVisible", size="full")
+  el-dialog(title="Tips", :visible.sync="renamePopupVisible", fullscreen=true)
     .popup(@click.stop="")
       .container.container-pop-up
         el-form(:model="folder", :rules="renameFolderRules", ref="renameFolderForm")
@@ -10,7 +10,7 @@
           el-row.row-form-buttons
             el-col.col-right(':span'="24")
               el-button(type="danger", @click="$parent.renamePopupVisible = false") cancel
-              el-button(type="success", '@click'="validateForm('renameFolderForm')") create
+              el-button(type="success", '@click'="validateForm('renameFolderForm')") rename
 </template>
 
 <script>

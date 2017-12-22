@@ -1,15 +1,14 @@
 <template lang="pug">
   .favorites(v-if="favs.length")
-    .favorites-header favorites :
+    .favorites-header Favorites :
     el-row.list-favorites(':gutter'="15")
-      el-col.col-center(':span'="4", v-for="fav in favs" ':key'="fav.name")
-        el-button(type="primary" '@click'="connect(fav)") {{ fav.name }}
+      el-col.col-center(':span'="4", v-for="fav in favs", ':key'="fav.name")
+        el-button(type="primary", '@click'="connect(fav)", v-bind:class="{ favSftp: fav.sftp }") {{ fav.name }}
         .label.label-click('@click'="removeFromFavorites(fav)") delete
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
-import { ftpNewConnexion } from '@/utils/ftp'
+import { mapGetters } from 'vuex'
 
 export default {
   data () {
@@ -20,6 +19,7 @@ export default {
       port: ''
     }
   },
+  props: ['connect'],
   computed: {
     ...mapGetters({
       favs: 'getFavs'
@@ -28,14 +28,7 @@ export default {
   methods: {
     removeFromFavorites (item) {
       this.$store.commit('REMOVE_FROM_FAVORITE', item)
-    },
-    connect (item) {
-      ftpNewConnexion(item.serverConfig).then(response => {
-        this.newPath()
-        this.$router.push({name: 'dashboard'})
-      })
-    },
-    ...mapActions(['newPath'])
+    }
   }
 }
 </script>
