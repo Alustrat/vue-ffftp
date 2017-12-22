@@ -25,6 +25,9 @@
           | rename
         input(type="file", ref="inputDownload", @click.stop="", @change.stop="saveDownloadPath($event)" webkitdirectory)
     
+    div.close('@click'="backToForm()")
+      .ion-log-out
+    
     vc-mkdir-popup(:createFolder="createFolder", :mkdirPopupVisible="mkdirPopupVisible")
     vc-rename-popup(:renameFolder="renameFolder", :renamePopupVisible="renamePopupVisible", :selectedFolderName="selectedFolderName")
 </template>
@@ -95,7 +98,12 @@ export default {
           this.loadItems()
         })
     },
-    ...mapActions(['goUp', 'goBackTo'])
+    backToForm () {
+      this.$server.connexion.disconnect()
+      this.clearLogs()
+      this.$router.push({name: 'connexion-form'})
+    },
+    ...mapActions(['goUp', 'goBackTo', 'clearLogs'])
   }
 }
 </script>
