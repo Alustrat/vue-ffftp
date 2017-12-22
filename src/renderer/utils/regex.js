@@ -1,4 +1,4 @@
-const dirSeperator = '\\'
+const dirSeperator = require('path').sep
 const home = require('os').homedir()
 
 export function rewritePirateKey (path) {
