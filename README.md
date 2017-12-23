@@ -1,28 +1,23 @@
 <div align="center">
 	<h1>Vue-ffftp</h1>
+	<br />
   <p>
-    <a href="https://github.com/Alustrat/vue-ffftp/releases"><img src="https://raw.githubusercontent.com/Alustrat/vue-ffftp/master/static/img/logo.png"></a>
+    <a href="https://github.com/Alustrat/vue-ffftp/releases"><img style="width: 150px" src="https://raw.githubusercontent.com/Alustrat/vue-ffftp/master/static/img/logo.png"></a>
   </p>
 
 [![deps][deps]][deps-url]
 [![devDeps][devDeps]][devDeps-url]
 [![contribute][contribute]][contribute-url]
 
+<br />
+
 <p>A little electron application to connect to your servers through FTP. It is a copy of the original project <a href="https://github.com/mitchas/ffftp">ffftp</a>. Hope you will like it and please don't hesitate to provide feedback or suggest new features. This project works on <a href="https://github.com/SimulatedGREG/electron-vue">electron-vue</a>.</p>
-</div>
-
-<h2 align="center">Overview</h2>
-
-<div align="center">
-	<img alt="screenshot home page 1" src="https://raw.githubusercontent.com/Alustrat/vue-ffftp/master/static/screenshots/screenshot1.png">
-	<img alt="screenshot home page 2" src="https://raw.githubusercontent.com/Alustrat/vue-ffftp/master/static/screenshots/screenshot2.png">
-	<img alt="screenshot dashboard" src="https://raw.githubusercontent.com/Alustrat/vue-ffftp/master/static/screenshots/screenshot3.png">
 </div>
 
 <h2 align="center">Install</h2>
 
 Install pre-build app :
- * See <a href="#">Release page</a>
+ * See <a href="https://github.com/Alustrat/vue-ffftp/releases">Release page</a>
 
 Run local with yarn :
 
@@ -31,6 +26,14 @@ Run local with yarn :
 
 	# run electron in development mod
 	npm run dev
+
+<h2 align="center">Overview</h2>
+
+<div align="center">
+	<img alt="screenshot home page 1" src="https://raw.githubusercontent.com/Alustrat/vue-ffftp/master/static/screenshots/screenshot1.png">
+	<img alt="screenshot home page 2" src="https://raw.githubusercontent.com/Alustrat/vue-ffftp/master/static/screenshots/screenshot2.png">
+	<img alt="screenshot dashboard" src="https://raw.githubusercontent.com/Alustrat/vue-ffftp/master/static/screenshots/screenshot3.png">
+</div>
 
 <h2 align="center">Contributing</h2>
 
