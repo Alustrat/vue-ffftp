@@ -2,7 +2,7 @@
 	<h1>Vue-ffftp</h1>
 	<br />
   <p>
-    <a href="https://github.com/Alustrat/vue-ffftp/releases"><img style="width: 150px" src="https://raw.githubusercontent.com/Alustrat/vue-ffftp/master/static/img/logo.png"></a>
+    <a href="https://github.com/Alustrat/vue-ffftp/releases"><img style="width: 150px" src="https://raw.githubusercontent.com/Alustrat/vue-ffftp/master/static/readme/logo.png"></a>
   </p>
 
 [![deps][deps]][deps-url]
@@ -30,9 +30,9 @@ Run local with yarn :
 <h2 align="center">Overview</h2>
 
 <div align="center">
-	<img alt="screenshot home page 1" src="https://raw.githubusercontent.com/Alustrat/vue-ffftp/master/static/screenshots/screenshot1.png">
-	<img alt="screenshot home page 2" src="https://raw.githubusercontent.com/Alustrat/vue-ffftp/master/static/screenshots/screenshot2.png">
-	<img alt="screenshot dashboard" src="https://raw.githubusercontent.com/Alustrat/vue-ffftp/master/static/screenshots/screenshot3.png">
+	<img alt="screenshot home page 1" src="https://raw.githubusercontent.com/Alustrat/vue-ffftp/master/static/readme/screenshot1.png">
+	<img alt="screenshot home page 2" src="https://raw.githubusercontent.com/Alustrat/vue-ffftp/master/static/readme/screenshot2.png">
+	<img alt="screenshot dashboard" src="https://raw.githubusercontent.com/Alustrat/vue-ffftp/master/static/readme/screenshot3.png">
 </div>
 
 <h2 align="center">Contributing</h2>
