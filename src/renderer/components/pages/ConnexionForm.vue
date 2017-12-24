@@ -98,10 +98,13 @@ export default {
         this.isPassPopupVisible = true
         this.itemPassPopup = item
       } else {
-        this.$server.connect(JSON.parse(JSON.stringify(item)), passphrase).then(() => {
-          this.isPassPopupVisible = false
-          this.$router.push({name: 'dashboard'})
-        })
+        this.$server.connect(JSON.parse(JSON.stringify(item)), passphrase)
+          .then(() => {
+            this.isPassPopupVisible = false
+            this.$router.push({name: 'dashboard'})
+            this.$message({ message: 'Connexion successfull.', type: 'success' })
+          })
+          .catch(() => this.$message.error('Error with the connection.'))
       }
     }
   }

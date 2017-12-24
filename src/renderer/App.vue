@@ -39,7 +39,11 @@ export default {
           }
         }
         this.$server.uploadItems(items, this.pathString)
-          .then(() => this.$emit('reload'))
+          .then(() => {
+            this.$message({ message: 'Success uploading files.', type: 'success' })
+            this.$emit('reload')
+          })
+          .catch(() => this.$message.error('Error uploading files.'))
       }
     },
     ...mapActions(['loadCurrentPath', 'loadFavs'])
