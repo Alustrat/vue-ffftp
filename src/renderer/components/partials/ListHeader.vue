@@ -71,20 +71,29 @@ export default {
     renameFolder (newName) {
       let oldPath = this.$parent.pathString + '/' + this.$parent.multipleSelection[0].name
       let newPath = this.$parent.pathString + '/' + newName
-      this.$server.connexion.rename(oldPath, newPath).then(response => {
-        this.loadItems()
-      })
+      this.$server.connexion.rename(oldPath, newPath)
+        .then(() => {
+          this.$message({ message: 'Success renaming file.', type: 'success' })
+          this.loadItems()
+        })
+        .catch(() => this.$message.error('Error renaming file.'))
     },
     createFolder (newName) {
       let path = this.$parent.pathString + '/' + newName
-      this.$server.connexion.mkdir(path).then(response => {
-        this.loadItems()
-      })
+      this.$server.connexion.mkdir(path)
+        .then(() => {
+          this.$message({ message: 'Success creating folder.', type: 'success' })
+          this.loadItems()
+        })
+        .catch(() => this.$message.error('Error creating folder.'))
     },
     deleteFolder () {
-      this.$server.deleteItems(this.$parent.pathString, this.$parent.multipleSelection).then(() => {
-        this.loadItems()
-      })
+      this.$server.deleteItems(this.$parent.pathString, this.$parent.multipleSelection)
+        .then(() => {
+          this.$message({ message: 'Success deleting file.', type: 'success' })
+          this.loadItems()
+        })
+        .catch(() => this.$message.error('Error deleting file.'))
     },
     triggerInput () {
       this.$refs.inputDownload.click()
@@ -94,9 +103,11 @@ export default {
       let downloadPath = e.target.files[0].path
       this.$server.downloadItems(this.$parent.multipleSelection, this.$parent.pathString, downloadPath)
         .then(() => {
+          this.$message({ message: 'Success downloading files.', type: 'success' })
           e.target.value = ''
           this.loadItems()
         })
+        .catch(() => this.$message.error('Error downloading files.'))
     },
     backToForm () {
       this.$server.connexion.disconnect()
